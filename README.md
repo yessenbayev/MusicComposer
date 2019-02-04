@@ -1,7 +1,7 @@
 # ece271B
 ## Downloading the dataset
-run 
-conda install requests
-conda install -c anaconda beautifulsoup4
-then run
-python download_dataset.py
+run </br>
+conda install requests </br>
+conda install -c anaconda beautifulsoup4 </br>
+then run </br>
+python download_dataset.py </br>
