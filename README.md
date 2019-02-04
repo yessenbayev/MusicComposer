@@ -1,4 +1,4 @@
-# ece271B
+# ECE 271B Final Project
 ## Downloading the dataset
 run </br>
 conda install requests </br>
