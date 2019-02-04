@@ -4,3 +4,4 @@
 *.log
 *.aux
 data/*
+log.txt

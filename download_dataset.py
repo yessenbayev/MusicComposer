@@ -71,7 +71,7 @@ def download_audio_series(audio_links,directory):
         except:
             time.sleep(1)
             with open('log.txt','a') as f:
-                f.write(link + ' failed')
+                f.write(link + ' failed\n')
   
     print("All audios downloaded!")
     return
