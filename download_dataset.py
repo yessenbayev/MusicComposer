@@ -1,6 +1,7 @@
 import requests 
 import os
 import re
+import time
 from bs4 import BeautifulSoup 
   
 ''' 
@@ -43,26 +44,34 @@ def get_audio_links():
 def download_audio_series(audio_links,directory): 
   
     for link in audio_links: 
-  
-        '''iterate through all links in audio_links 
-        and download them one by one'''
-          
-        # obtain filename by splitting url and getting  
-        # last string 
-        file_name = link.split('/')[-1]    
-  
-        print("Downloading file:%s"%file_name)
-          
-        # create response object 
-        r = requests.get(link, stream = True) 
-          
-        # download started 
-        with open(os.path.join(directory,file_name), 'wb') as f: 
-            for chunk in r.iter_content(chunk_size = 1024*1024): 
-                if chunk: 
-                    f.write(chunk) 
-          
-        print("%s downloaded!\n"%file_name) 
+        try:
+            '''iterate through all links in audio_links 
+            and download them one by one'''
+                
+            # obtain filename by splitting url and getting  
+            # last string 
+            file_name = link.split('/')[-1]
+            file_system = link.split('/')[-2]
+
+            if not os.path.exists(os.path.join(directory,file_system)):
+                os.makedirs(os.path.join(directory,file_system))
+
+            print("Downloading file:%s"%file_name)
+
+            # create response object 
+            r = requests.get(link, stream = True) 
+                
+            # download started 
+            with open(os.path.join(directory,file_system,file_name), 'wb') as f: 
+                for chunk in r.iter_content(chunk_size = 1024*1024): 
+                    if chunk: 
+                        f.write(chunk) 
+                
+            print("%s downloaded!\n"%file_name) 
+        except:
+            time.sleep(1)
+            with open('log.txt','a') as f:
+                f.write(link + ' failed')
   
     print("All audios downloaded!")
     return
