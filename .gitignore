@@ -7,3 +7,4 @@
 *.blg
 data/*
 log.txt
+*.DS_Store

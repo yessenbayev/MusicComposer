@@ -7,6 +7,7 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{cite}
+\usepackage{url}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -17,53 +18,50 @@
 \author{\IEEEauthorblockN{Jahya Burke}
 \IEEEauthorblockA{\textit{ECE Department} \\
 \textit{UC San Diego}\\
-San Diego, USA \\
+San Diego, USA\\
 j1burke@ucsd.edu}
 \and
 \IEEEauthorblockN{Yisheng Ji}
 \IEEEauthorblockA{\textit{ECE Department} \\
 \textit{UC San Diego}\\
-San Diego, USA \\
+San Diego, USA\\
 y3ji@eng.ucsd.edu}
 \and
 \IEEEauthorblockN{Shiwei Rong}
 \IEEEauthorblockA{\textit{ECE Department} \\
 \textit{UC San Diego}\\
-San Diego, USA \\
+San Diego, USA\\
 srong@ucsd.edu}
 \and
 \IEEEauthorblockN{Shuangcheng Yang}
 \IEEEauthorblockA{\textit{ECE Department} \\
 \textit{UC San Diego}\\
-San Diego, USA \\
+San Diego, USA\\
 shy003@ucsd.edu}
 \and
 \IEEEauthorblockN{Alan Yessenbayev}
 \IEEEauthorblockA{\textit{ECE Department} \\
 \textit{UC San Diego}\\
-San Diego, USA \\
+San Diego, USA\\
 ayessenb@ucsd.edu}
 }
 
 \maketitle
 
-
-\begin{IEEEkeywords}
-component, formatting, style, styling, insert
-\end{IEEEkeywords}
-
 \section{Problem}
-For our project, we will address the task of creating a neural composer. For thousands of years, cultures around the world composed music for recreational, religious, and artistic reasons. Up until now, music has been composed by humans but with the rise of machine learning there are opportunities for music to be composed using learning algorithms. Aside from the cultural benefits of music, there is now a large commercial industry surrounding the music composition for entertainment venues, movies, and video games. If a successful music composing application were to be created, it could be used for artistic as well as commercial benefits. Current endeavors like NSynth by Google Magenta team are used for creating new sounds \cite{NSynth}.
+For our project, we will address the problem of computer music composition. For thousands of years, cultures around the world composed music for recreational, religious, and artistic reasons. Up until now, music has been composed by humans but with the rise of machine learning there are opportunities for music to be composed using learning algorithms. Aside from the cultural benefits of music, there is now a large commercial industry surrounding music composition for entertainment venues, movies, video games, and retail. If a successful music composing application were to be created, it could be used for artistic as well as commercial benefits. Our system will be geared more towards EDM beat-makers and/or indie game developers, therefore we are aiming to have a simple interface that will produce simple musical ideas, that can be rehashed by human operator in real-time.
 
 \section{Dataset}
-In order to train our neural network, we will require large datasets of music. The datasets will need to be restricted to a specific genre to avoid confusing the network with wide variation in compositional style. Based of examples that we have seen [references], we expect that different types of networks will perform well for different genres of music. In order to allow for flexibility in the type of network we construct, we will consider composing 3 different genres of music; jazz music, which tends to be sporadic and free form, classical music, which tends to be dynamic and structured, and video game music, which tends to be formulaic and looping.
+In order to train our model, we will require large datasets of music. In particular, we decided to feed data in the MIDI file format, as it already contains the musical score information inside of it. The datasets will need to be restricted to a specific genre to avoid confusing the network with wide variation in compositional style. Based of examples that we have seen \cite{ComposerVideo}\cite{JazzVideo}\cite{BaroqueVideo}, we expect that different models will perform well for different genres of music. In order to allow for flexibility in the type of network we construct, we will consider composing 3 different genres of music; jazz music, which tends to be sporadic and free form, classical music, which tends to be dynamic and structured, and video game music, which tends to be formulaic and looping.\par 
+We found three datasets of interest. The Google MAESTRO \cite{maestro2018} is a dataset containing over 172 hours of virtuoso piano performances. The LAKH dataset \cite{lakh2011} is also a good dataset of MIDI files, however, it is not well-maintained and possibly contains corrupted files. Lastly, VGMusic.com \cite{vgmusic} has more than 30000 MIDI files of almost all video game music out there. We will use a subset of this data to train our model.
 
 
 \section{Solution}
-We will generate an auto-encoder to achieve our goal. For the encoder network part, a 96 notes with a time step of 96 ticks structure will be generated as the training dataset. Additionally, a third dimension for the measure itself may also established due to measure often repeats. The number of third dimension is calculated based on the number of measure songs. PCA or LDA method will be used to compress the high-dimensional training data to a reasonable dimension for us to train our model. A supervised learning model of deep neural network called neural ordinary differential equations solver[1] is used. Instead of specifying a discrete sequence of hidden layers, this model will parameterize the derivative of the hidden state using a neural network and the adjoint sensitivity method is used to calculate the gradients.  The output of the network is computed using a black-box ordinary differential equation solver. As a result, we will generate a composing AI interface. User can directly change a certain number of top principal components to change the style of mucis at any time. Also, notes in the piano roll format will be shown to the user. There may have other useful controls inside the interface to compose various of music.
+We will explore auto-encoder neural network architectures to achieve our goal.
+A 96 notes with a time step of 96 ticks structure will be generated as the training dataset. This 96x96 sheet will comprise a single measure/bar. Additionally, a third dimension for the bars themselves may also be established. PCA and/or LDA methods will be used to compress the high-dimensional training data to a reasonable dimension for us to train our model. We will explore traditional, variational, and residual architectures. Time-permitting, we will extend the residual auto-encoder using the NODE method \cite{NODE}. As a result, we will generate a composing AI interface. User can directly change a certain number of top principal components to change the style of music at any time. Also, notes in the piano roll format will be shown to the user. There may be other useful controls inside the interface to create various musical output.
 
 \section{Experiments}
-
+We will use PyTorch \cite{pytorch} or TensorFlow \cite{tensorflow} framework to train and test our model. To numerically assess the result of auto-encoder training, we will compute the test data reconstruction loss upon convergence for various architectures. However, primary goal of our system is to produce pleasing music, therefore the ultimate affirmation of the success of our model will be music that is pleasing for us. Also, we will assess our model, for testing speed, as we aim for the system to be used in real-time.
 
 \bibliographystyle{IEEEtran}
 \bibliography{proposal}
