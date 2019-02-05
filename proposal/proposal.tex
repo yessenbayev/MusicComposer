@@ -61,14 +61,7 @@ In order to train our neural network, we will require large datasets of music. T
 
 
 \section{Solution}
-Before you begin to format your paper, first write and save the content as a 
-separate text file. Complete all content and organizational editing before 
-formatting. Please note sections \ref{AA}--\ref{SCM} below for more information on 
-proofreading, spelling and grammar.
-
-Keep your text and graphic files separate until after the text has been 
-formatted and styled. Do not number text heads---{\LaTeX} will do that 
-for you.
+We will generate an auto-encoder to achieve our goal. For the encoder network part, a 96 notes with a time step of 96 ticks structure will be generated as the training dataset. Additionally, a third dimension for the measure itself may also established due to measure often repeats. The number of third dimension is calculated based on the number of measure songs. PCA or LDA method will be used to compress the high dimentional training data to a reasonable dimension for us to train our model. A supervised learning model of deep neural network called neural ordinary differential equations solver[1] is used. Instead of specifying a discrete sequence of hidden layers, this model will parameterize the derivative of the hidden state using a neural network and the adjoint sensitivity method is used to calculate the gradients.  The output of the network is computed using a black-box ordinary differential equation solver. As a result, we will generate a composing AI interface. User can directly change a certain number of top principal components to change the style of mucis at any time. Also, notes in the piano roll format will be shown to the user. There may have other useful controls inside the interface to compose various of music.
 
 \section{Experiments}
 
@@ -195,7 +188,6 @@ copy& More table copy$^{\mathrm{a}}$& &  \\
 \end{table}
 
 \begin{figure}[htbp]
-\includegraphics[width=\linewidth]{fig1.png}
 \caption{Example of a figure caption.}
 \label{fig}
 \end{figure}
