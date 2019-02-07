@@ -10,5 +10,4 @@ python download_dataset.py </br>
 ## Installing the required packages
 
 ### mido
-conda install -c roebel mido </br
->
+conda install -c roebel mido </br>
