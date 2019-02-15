@@ -1,32 +1,42 @@
+""" Defines the Autoencoder class and runs an example using MNIST data"""
 from keras.layers import Input, Dense
 from keras.models import Model
 from keras.datasets import mnist
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Config dictionary used to store network parameters
 config = {}
 config['input_dim'] = 784
-config['layers'] = [64, 32]
+config['layers'] = [32]   # Number of nodes in layers from largest to smallest
 config['activation'] = 'relu'
 config['output_activation'] = 'sigmoid'
 
 
 class Autoencoder:
+  """ Autoencoder class allows you to create and train an autoencoder network
+  
+  Methods:
+    train(self, x_train, x_test, n_epoch, n_batch)
+    encode(self,x_test)
+    decode(self,encoded_output)
+  """
+  
   def __init__(self, config):
     encoding_dim = config['layers'][-1]
-    # this is our input placeholder
-    input = Input(shape=(config['input_dim'],))
+    input = Input(shape=(config['input_dim'],)) # Input placeholder
     
-    # "encoded" is the encoded representation of the input
-    print('Encoded')
+    # Create encoding model
+    print('Encoding Layers')
     encoded = Dense(config['layers'][0], activation=config['activation'])(input)
     print(config['layers'][0], config['activation'])
     for n_nodes in config['layers'][1:]:
       print(n_nodes, config['activation'])
       encoded = Dense(n_nodes, activation=config['activation'])(encoded)
+    self.encoder = Model(input, encoded) # Maps an input to its encoded representation
     
-    # "decoded" is the lossy reconstruction of the input
-    print('Decoded')
+    # Create decoding model
+    print('Decoding Layers')
     encoded_input = Input(shape=(encoding_dim,))
     if len(config['layers']) > 1:
       decoded = Dense(config['layers'][-2], activation=config['activation'])(encoded)
@@ -43,21 +53,18 @@ class Autoencoder:
       decoded = Dense(config['input_dim'], activation=config['output_activation'])(encoded)
       decoded_output = Dense(config['input_dim'], activation=config['output_activation'])(encoded_input)
       print(config['input_dim'], config['output_activation'])
-
-
     
-    #### Create Models ####
-    # Autoencoder model maps an input to its reconstruction
-    self.autoencoder = Model(input, decoded)
-    # Encoder model maps an input to its encoded representation
-    self.encoder = Model(input, encoded)
-    # Decoder model maps an encoded input to a reconstructed output
-    self.decoder = Model(encoded_input, decoded_output)
+    self.decoder = Model(encoded_input, decoded_output) # Maps an encoded input to a reconstructed output
 
-    #### Configure Model
+    # Create autoencoder model
+    self.autoencoder = Model(input, decoded) # Maps an input to its reconstruction
+    
+    # Configure Model
     self.autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
+
   def train(self, x_train, x_test, n_epoch, n_batch):
+    """ Trains network on given data with specified number of epochs and batchsize."""
     self.autoencoder.fit(x_train, x_train,
                          epochs=n_epoch,
                          batch_size=n_batch,
@@ -65,10 +72,12 @@ class Autoencoder:
                          validation_data=(x_test, x_test))
   
   def encode(self,x_test):
+    """ Runs network to encode given inputs. """
     encoded_output = self.encoder.predict(x_test)
     return encoded_output
   
   def decode(self,encoded_output):
+    """ Runs network to decode given inputs. """
     decoded_output = self.decoder.predict(encoded_output)
     return decoded_output
 
@@ -89,21 +98,21 @@ if __name__ == "__main__":
   model.train(x_train, x_test, n_epoch, n_batch)
 
   # Get Results
-  encoded_output = model.encode(x_test)
-  decoded_output = model.decode(encoded_output)
+  encoded_imgs = model.encode(x_test)
+  decoded_imgs = model.decode(encoded_imgs)
 
   # Show Results
-  n = 10  # how many digits we will display
+  n = 10  # Number of digits
   plt.figure(figsize=(20, 4))
   for i in range(n):
-    # display original
+    # Display original
     ax = plt.subplot(2, n, i + 1)
     plt.imshow(x_test[i].reshape(28, 28))
     plt.gray()
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
     
-    # display reconstruction
+    # Display reconstruction
     ax = plt.subplot(2, n, i + 1 + n)
     plt.imshow(decoded_imgs[i].reshape(28, 28))
     plt.gray()
