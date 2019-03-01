@@ -11,3 +11,13 @@ python download_dataset.py </br>
 
 ### mido
 conda install -c roebel mido </br>
+
+
+## DataGenerator Method
+
+### import
+from DataGenerator import MidiDataGenerator
+### initilize with the root path and the length of desired measures $m$
+midi = MidiDataGenerator('./row', m=16)
+### generate a tensor of shape (10, m, 96, 96)
+sample = midi.samples(size=10)
