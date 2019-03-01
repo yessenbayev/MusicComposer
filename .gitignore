@@ -8,3 +8,4 @@
 data/*
 log.txt
 *.DS_Store
+*.mid.npy
