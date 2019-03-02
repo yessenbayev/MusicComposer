@@ -71,20 +71,20 @@ def samples_to_midi(samples, filename, thresh=0.5):
 	track = MidiTrack()
 	mid.tracks.append(track)
 
-	ticks_per_sample = 4 * mid.ticks_per_beat / samples_per_measure
+	ticks_per_sample = 3 * mid.ticks_per_beat / samples_per_measure
 
 	last_ticks, ticks = 0, 0
 	for k, sample in enumerate(samples):
-		for y in range(sample.shape[0]):
+		for y in range(sample.shape[1]):
 			ticks += ticks_per_sample
-			for x in range(sample.shape[1]):
+			for x in range(sample.shape[0]):
 				note = x + 21
 				# determine if the node on
 				if sample[y, x] >= thresh and (y==0 or sample[y-1,x] < thresh):
-					track.append(Message('note_on',  note=note, velocity=127, time=ticks-last_ticks))
+					track.append(Message('note_on',  note=note, velocity=127, time=int(ticks-last_ticks)))
 					last_ticks = ticks
 				if sample[y, x] >= thresh and (y==sample.shape[0]-1 or sample[y+1,x] < thresh):
-					track.append(Message('note_off', note=note, velocity=127, time=ticks-last_ticks))
+					track.append(Message('note_off', note=note, velocity=127, time=int(ticks-last_ticks)))
 					last_ticks = ticks
 
 
