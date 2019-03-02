@@ -7,6 +7,8 @@
 *.bbl
 *.blg
 data/*
+raw/*
+dataset/*
 log.txt
 *.DS_Store
 *.mid.npy

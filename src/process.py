@@ -22,9 +22,16 @@ nb_note = 96
 class MultiTimeSignature(Exception):
 	pass   
 
+## Raised when asynchronous midi
+class AsynchronousDetected(Exception):
+	pass
+
 ## Convert MIDI files to samples
 def midi_to_samples(filename, info=None):
 	mid = MidiFile(filename)
+
+	if mid.type==2:
+		raise AsynchronousDetected
 
 	sign = [
 		(msg.numerator, msg.denominator) 
@@ -74,6 +81,8 @@ def midi_to_samples(filename, info=None):
 		os.makedirs(os.path.join(saving_directory, directory))
 
 	np.save(os.path.join(saving_directory, directory, filename.split('/')[-1]), samples)
+
+	return seg, max_k, ticks_per_sample, d
 
 
 # log = open('tsign.txt', 'w')
