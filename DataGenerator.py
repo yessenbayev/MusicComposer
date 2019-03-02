@@ -5,14 +5,12 @@ import numpy as np
 
 class MidiDataGenerator():
 	def __init__(self, root_dir, m=16):
-		self.root_dir = root_dir
 		self.paths = []
-		for root, _, files in walk(self.root_dir):
+		for root, _, files in walk(root_dir):
 			for file in files:
 				if file.endswith('.npy'):
 					self.paths.append(path.join(root, file))
 
-		self.paths.sort()
 		self.queue = deque()
 		self.pos = 0
 		self.len = m
@@ -44,7 +42,7 @@ class MidiDataGenerator():
 
 		return np.array([
 			self.queue.popleft() for k in range(size)
-		])
+		]), self.pos
 
 
 
