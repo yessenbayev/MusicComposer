@@ -1,5 +1,6 @@
 from mido import MidiFile, MidiTrack, Message
-import numpy as numpy
+import numpy as np
+import os
 
 ## the desired output feature shape
 number_of_notes = 96
