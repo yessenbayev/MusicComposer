@@ -11,6 +11,8 @@ class MidiDataGenerator():
 				if file.endswith('.npy'):
 					self.paths.append(path.join(root, file))
 
+		np.random.shuffle(self.paths)
+
 		self.queue = deque()
 		self.pos = 0
 		self.len = m
