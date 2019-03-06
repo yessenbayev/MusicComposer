@@ -29,3 +29,7 @@ sample = midi.samples(size=10)
 python SeqTrain.py tasks.txt
 
 ### tasks.txt contains the path of dataset
+
+## Generating Random Songs
+
+see test.ipynb
