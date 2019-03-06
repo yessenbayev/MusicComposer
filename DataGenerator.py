@@ -35,7 +35,10 @@ class MidiDataGenerator():
 			np.zeros((self.len % m_i,96,96), dtype=np.uint8)
 		])]
 
-	def samples(self, size=10):
+	def samples(self, size=10, all=False):
+		return self.get(size=size) if not all else self.all()
+
+	def get(self, size=10):
 		while len(self.queue) < size:
 			data = np.load(self.paths[self.pos])
 			self.pos = (self.pos + 1) % len(self.paths)
@@ -44,7 +47,15 @@ class MidiDataGenerator():
 
 		return np.array([
 			self.queue.popleft() for k in range(size)
-		]), self.pos
+		])
+
+	def all(self):
+		return np.array([
+			sample 
+			for path in self.paths
+			for sample in self.format_data(np.load(path)) 
+		])
+
 
 
 

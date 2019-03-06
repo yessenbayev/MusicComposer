@@ -11,4 +11,6 @@ log.txt
 *.DS_Store
 *.mid.npy
 *.mid
+*.h5
+*.png
 .vs_code/*

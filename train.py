@@ -61,8 +61,8 @@ ae.compile(
 train_history = ae.fit(
 	x_train, 
 	x_train, 
-	epochs=50,
-	batch_size=400, 
+	epochs=20,
+	batch_size=1, 
 	shuffle=True, 
 	verbose=1, 
 	validation_data=(x_valid, x_valid), 
