@@ -21,3 +21,11 @@ from DataGenerator import MidiDataGenerator
 midi = MidiDataGenerator('./raw', m=16)
 ### generate a tensor of shape (10, m, 96, 96)
 sample = midi.samples(size=10)
+
+
+## Training
+
+### run
+python SeqTrain.py tasks.txt
+
+### tasks.txt contains the path of dataset
