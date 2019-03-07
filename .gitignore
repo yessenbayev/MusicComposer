@@ -13,4 +13,5 @@ log.txt
 *.mid
 *.h5
 *.png
+*history.npy
 .vs_code/*
