@@ -59,12 +59,12 @@ def midi_to_samples(filename, info=None):
 	return samples
 
 
-def samples_to_midi(samples, filename, thresh=0.5):
+def samples_to_midi(samples, filename, thresh=0.5, numerator=4):
 	mid = MidiFile()
 	track = MidiTrack()
 	mid.tracks.append(track)
 
-	ticks_per_sample = 5 * mid.ticks_per_beat / samples_per_measure
+	ticks_per_sample = numerator * mid.ticks_per_beat / samples_per_measure
 
 	last_ticks, ticks = 0, 0
 	for k, sample in enumerate(samples):

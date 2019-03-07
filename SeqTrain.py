@@ -14,7 +14,7 @@ def train(directory, prefix='default', m=16, epoch=100):
 			if epoch+1 not in [10, 20, 50, 100, 150, 200, 250]: return 
 			
 			prefixn = "_".join([prefix, str(epoch+1), ])
-			ae.save(prefixn+'_autoencoder.h5')
+			# ae.save(prefixn+'_autoencoder.h5')
 			decoder.save(prefixn+'_decoder.h5')
 			encoder.save(prefixn+'_encoder.h5')
 
